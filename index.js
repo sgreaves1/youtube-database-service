@@ -27,6 +27,23 @@ app.get('/collections', async (req, res) => {
   }
 });
 
+// Show collection stats
+app.get('/stats', async (req, res) => {
+  try {
+    const db = mongoose.connection.db;
+    const showCount = await db.collection('youtubeShow').countDocuments();
+    const episodeCount = await db.collection('youtubeEpisode').countDocuments();
+    
+    res.json({
+      youtubeShow: { count: showCount },
+      youtubeEpisode: { count: episodeCount }
+    });
+  } catch (error) {
+    console.error('Error getting stats:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Get show by ID
 app.get('/show/:id', async (req, res) => {
   console.log('Show route accessed with ID:', req.params.id);
