@@ -16,6 +16,17 @@ app.get('/health', (req, res) => {
   res.send('API is running');
 });
 
+// List all collections
+app.get('/collections', async (req, res) => {
+  try {
+    const collections = await mongoose.connection.db.listCollections().toArray();
+    res.json({ collections: collections.map(c => c.name) });
+  } catch (error) {
+    console.error('Error listing collections:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Get show by ID
 app.get('/show/:id', async (req, res) => {
   console.log('Show route accessed with ID:', req.params.id);
