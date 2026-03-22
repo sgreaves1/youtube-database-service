@@ -29,10 +29,13 @@ app.get('/collections', async (req, res) => {
 
 // Show collection stats
 app.get('/stats', async (req, res) => {
+  console.log('Stats endpoint accessed');
   try {
     const db = mongoose.connection.db;
     const showCount = await db.collection('youtubeShow').countDocuments();
     const episodeCount = await db.collection('youtubeEpisode').countDocuments();
+    
+    console.log('Document counts - Shows:', showCount, 'Episodes:', episodeCount);
     
     res.json({
       youtubeShow: { count: showCount },
