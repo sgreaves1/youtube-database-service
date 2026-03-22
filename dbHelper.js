@@ -19,6 +19,10 @@ async function getShowById(id) {
     const numericId = parseInt(id);
     console.log('Converted to numeric ID:', numericId);
     
+    // First, let's see what documents exist in the collection
+    const allShows = await YoutubeShow.find().limit(5);
+    console.log('Sample documents in collection:', JSON.stringify(allShows, null, 2));
+    
     const show = await YoutubeShow.findOne({ id: numericId });
     console.log('Found show:', show);
     
