@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const youtubeShowSchema = new mongoose.Schema({}, { strict: false, collection: 'youtubeShow' });
 const youtubeEpisodeSchema = new mongoose.Schema({}, { strict: false, collection: 'youtubeEpisode' });
 
-const YoutubeShow = mongoose.model('YoutubeShow', youtubeShowSchema);
-const YoutubeEpisode = mongoose.model('YoutubeEpisode', youtubeEpisodeSchema);
+const YoutubeShow = mongoose.model('youtubeShow', youtubeShowSchema);
+const YoutubeEpisode = mongoose.model('youtubeEpisode', youtubeEpisodeSchema);
 
 /**
  * Get a YouTube show by ID from the youtubeShow collection
