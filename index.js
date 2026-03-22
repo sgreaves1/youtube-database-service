@@ -18,17 +18,13 @@ app.get('/health', (req, res) => {
 
 // Get show by ID
 app.get('/show/:id', async (req, res) => {
-  console.log('Show route accessed with ID:', req.params.id);
   try {
-    console.log('Route hit: GET /show/:id with params:', req.params);
     const show = await getShowById(req.params.id);
-    console.log('Result from getShowById:', show);
     if (!show) {
       return res.status(404).json({ error: 'Show not found' });
     }
     res.json(show);
   } catch (error) {
-    console.error('Error in /show/:id route:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
