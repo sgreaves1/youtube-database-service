@@ -16,38 +16,6 @@ app.get('/health', (req, res) => {
   res.send('API is running');
 });
 
-// List all collections
-app.get('/collections', async (req, res) => {
-  try {
-    const collections = await mongoose.connection.db.listCollections().toArray();
-    res.json({ collections: collections.map(c => c.name) });
-  } catch (error) {
-    console.error('Error listing collections:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Show collection stats
-app.get('/stats', async (req, res) => {
-  console.log('Stats endpoint accessed');
-  try {
-    const db = mongoose.connection.db;
-    const showCount = await db.collection('youtubeShow').countDocuments();
-    const episodeCount = await db.collection('youtubeEpisode').countDocuments();
-    
-    console.log('Document counts - Shows:', showCount, 'Episodes:', episodeCount);
-    
-    res.json({
-      database: db.databaseName,
-      youtubeShow: { count: showCount },
-      youtubeEpisode: { count: episodeCount }
-    });
-  } catch (error) {
-    console.error('Error getting stats:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
 // Get show by ID
 app.get('/show/:id', async (req, res) => {
   console.log('Show route accessed with ID:', req.params.id);
@@ -66,7 +34,7 @@ app.get('/show/:id', async (req, res) => {
 });
 
 // Get episode by youtubeId
-app.get('/episode/youtube/:youtubeId', async (req, res) => {
+app.get('/episode/:youtubeId', async (req, res) => {
   try {
     const episode = await getEpisodeByYoutubeId(req.params.youtubeId);
     if (!episode) {
@@ -76,35 +44,6 @@ app.get('/episode/youtube/:youtubeId', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
-});
-
-// Get all shows
-app.get('/shows', async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit) || 50;
-    const skip = parseInt(req.query.skip) || 0;
-    const shows = await getAllShows({ limit, skip });
-    res.json(shows);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Get all episodes
-app.get('/episodes', async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit) || 50;
-    const skip = parseInt(req.query.skip) || 0;
-    const episodes = await getAllEpisodes({ limit, skip });
-    res.json(episodes);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Example GET
-app.get('/episode', (req, res) => {
-  res.json([{ id: 1, name: 'John' }]);
 });
 
 const PORT = process.env.PORT || 3759;
