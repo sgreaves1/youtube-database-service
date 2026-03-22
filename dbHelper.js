@@ -14,7 +14,9 @@ const YoutubeEpisode = mongoose.model('YoutubeEpisode', youtubeEpisodeSchema);
  */
 async function getShowById(id) {
   try {
-    const show = await YoutubeShow.findById(id);
+    // Convert string ID to number for int32 field matching
+    const numericId = parseInt(id);
+    const show = await YoutubeShow.findOne({ id: numericId });
     return show;
   } catch (error) {
     console.error('Error fetching show by ID:', error);
