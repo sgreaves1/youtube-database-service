@@ -38,6 +38,7 @@ app.get('/stats', async (req, res) => {
     console.log('Document counts - Shows:', showCount, 'Episodes:', episodeCount);
     
     res.json({
+      database: db.databaseName,
       youtubeShow: { count: showCount },
       youtubeEpisode: { count: episodeCount }
     });
